@@ -26,11 +26,11 @@
     </b-navbar>
     <div class="container">
       <div class="card" v-for="dat in data" :key="dat.no" >
-        <h5>{{ dat.rss_title }}</h5>
+        <h5>{{ dat.rss_title !== undefined ? dat.rss_title : 'ERROR' }}</h5>
         <small class="text-success">E{{dat.rss_episode}} {{dat.rss_quality}} {{dat.rss_release_group}}</small>
         <hr/>
         <b-progress v-if="progress" :value="counter" :max="max" show-progress animated></b-progress>
-        <small class="d-inline-block text-truncate">{{ dat.title }}</small>
+        <small class="d-inline-block text-truncate">{{ dat.title !== undefined ? dat.title.trim() : 'error' }}</small>
         <b-link
           href=""
           @click="showModal({'name': dat.title, 'link': dat.link})">
@@ -77,14 +77,13 @@
           <b-button block variant="link" @click="download()">Download Request</b-button>
         </div>
       </b-modal>
-
     </div>
   </div>
 </template>
 
 <script>
-import qs from 'qs'
 import axios from '~/plugins/axios'
+import socket from '~/plugins/socket.io.js'
 
 export default {
   data () {
@@ -111,7 +110,8 @@ export default {
       max: 100,
       progress: false,
       removeReload: false,
-      lastPage: false
+      lastPage: false,
+      downloading: []
     }
   },
   async asyncData ({ app }) {
@@ -123,6 +123,15 @@ export default {
       }
     })
     return { data: res.data }
+  },
+  beforeMount () {
+    socket.on('send-downloading', (node) => {
+      this.downloading.push(node)
+      console.log(node.percentDone * 100)
+    })
+    socket.on('send-error', (err) => {
+      alert(err)
+    })
   },
   methods: {
     showModal: function (dat, event) {
@@ -137,15 +146,21 @@ export default {
       this.$refs.dnModalRef.show()
     },
     download: function () {
-      const data = qs.stringify(this.modal.dat)
+      // const data = qs.stringify(this.modal.dat)
 
-      axios.post('http://10.0.1.10:8080/torrss/putRSSDownload.php', data)
+      // axios.post('http://10.0.1.10:8080/torrss/putRSSDownload.php', data)
+      axios.post('/api/download', this.modal.dat)
         .then(res => {
-          this.modal.id = res.data.arguments.torrent_added.id
-          this.modal.name = res.data.arguments.torrent_added.name
-          this.modal.title = 'Download request ' + res.data.result
+          const ret = res.data.id !== undefined ? 'success' : 'failure'
 
-          if (res.data.result === 'success') {
+          this.modal.id = res.data.id
+          this.modal.name = res.data.name
+          this.modal.title = 'Download request ' + ret
+
+          // if (res.data.result === 'success') {
+          if (ret === 'success') {
+            socket.emit('add-download', res.data)
+
             this.modal.bodyClass = 'hide'
             this.modal.successMark = true
             this.modal.textVariant = 'success'
@@ -154,9 +169,11 @@ export default {
             this.modal.textVariant = 'danger'
           }
         })
-        .catch((error) => {
+        .catch((err) => {
+          console.log(err)
           this.modal.textVariant = 'danger'
-          this.modal.title = error
+          this.modal.title = 'Error'
+          this.modal.name = err.message
         })
     },
     next: function () {
@@ -234,16 +251,6 @@ export default {
           this.data = res.data
           window.scroll({ top: 0, left: 0, behavior: 'auto' })
         }).catch((error) => { alert(error) })
-    }
-  },
-  mounted () {
-    // this.scroll(this.data)
-  },
-  computed: {
-    filteredList: function () {
-      return this.data.filter(dat => {
-        return dat.title.toLowerCase().includes(this.search.toLowerCase())
-      })
     }
   }
 }

@@ -5,23 +5,26 @@
   "author": "LJW <tarpha@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "nodemon --watch api --exec \"nuxt\"",
+    "dev": "nodemon -w server -w plugins -w nuxt.config.js ./server/server.js",
     "build": "nuxt build",
-    "start": "nuxt build && nuxt start",
+    "start": "NODE_ENV=production node ./server/server.js",
     "precommit": "npm run lint",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
     "@nuxtjs/dotenv": "^1.1.1",
     "axios": "^0.16.2",
+    "body-parser": "^1.18.3",
     "bootstrap-vue": "^2.0.0-rc.11",
     "cross-env": "^5.0.1",
     "express": "^4.15.3",
     "express-promise-router": "^3.0.3",
     "nuxt": "latest",
     "pg": "^7.4.3",
-    "qs": "^6.5.2",
-    "source-map-support": "^0.4.15"
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
+    "source-map-support": "^0.4.15",
+    "transmission": "^0.4.9"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

@@ -16,6 +16,12 @@ module.exports = {
     ]
   },
   /*
+  ** env
+  */
+  env: {
+    WS_URL: process.env.WS_URL || 'http://localhost:3000'
+  },
+  /*
   ** Global CSS
   */
   css: ['~/assets/css/main.css'],
@@ -38,10 +44,12 @@ module.exports = {
       }
     }
   },
+  /*
   serverMiddleware: [
     // API middleware
     '~/api/index.js'
   ],
+  */
   /*
   ** modules
   */
