@@ -11,5 +11,6 @@ const transmission = new Transmission({
 
 module.exports = {
   addUrl: (url, options, callback) => transmission.addUrl(url, options, callback),
-  get: (id, collback) => transmission.get(id, collback)
+  get: (id, collback) => transmission.get(id, collback),
+  delete: (id, option, collback) => transmission.remove(id, option, collback)
 }

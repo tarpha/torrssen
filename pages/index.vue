@@ -2,6 +2,18 @@
   <div>
     <b-navbar variant="faded" type="light" class="container navi" sticky fixed>
       <div class="box">
+        <b-alert :show="dismissCountDown"
+               dismissible
+               variant="warning"
+               @dismissed="dismissCountDown=0"
+               @dismiss-count-down="countDownChanged">
+          <p class="text-truncate">{{ alertMessage }}</p>
+          <b-progress variant="warning"
+                      :max="dismissSecs"
+                      :value="dismissCountDown"
+                      height="4px">
+          </b-progress>
+        </b-alert>
         <div class="zGVn2e">
           <div class="SDkEP">
             <div class="a4bIc">
@@ -29,19 +41,37 @@
         <h5>{{ dat.rss_title !== undefined ? dat.rss_title : 'ERROR' }}</h5>
         <small class="text-success">E{{dat.rss_episode}} {{dat.rss_quality}} {{dat.rss_release_group}}</small>
         <hr/>
-        <b-progress v-if="progress" :value="counter" :max="max" show-progress animated></b-progress>
         <small class="d-inline-block text-truncate">{{ dat.title !== undefined ? dat.title.trim() : 'error' }}</small>
-        <b-link
-          href=""
-          @click="showModal({'name': dat.title, 'link': dat.link})">
-          <small>/download</small>
-        </b-link>
-        <b-link
-          class="d-inline-block text-truncate"
-          href=""
-          @click="showModal({'name': dat.title, 'link': dat.link, 'path': dat.rss_title})">
-          <small>/video/TV/{{ dat.rss_title }}</small>
-        </b-link>
+        <div v-if="dat.tid === 0 || dat.target === 'download'"
+          class="d-flex justify-content-between align-items-center">
+          <b-link
+            :disabled="dat.tid !== 0"
+            @click="showModal({'no': dat.no, 'name': dat.title, 'link': dat.link, 'target': 'download'})">
+            <small>/download</small>
+          </b-link>
+          <button v-if="dat.tid !== 0"
+            class="delete_button text-danger"
+            type="button"
+            @click="deleteDown(dat.tid)">
+            <span aria-label="다운로드 삭제">×</span>
+          </button>
+        </div>
+        <div v-if="dat.tid === 0 || dat.target === 'video'"
+          class="d-flex justify-content-between align-items-center">
+          <b-link
+            :disabled="dat.tid !== 0"
+            class="d-inline-block text-truncate"
+            @click="showModal({'no': dat.no, 'name': dat.title, 'link': dat.link, 'path': dat.rss_title, 'target': 'video'})">
+            <small>/video/TV/{{ dat.rss_title }}</small>
+          </b-link>
+          <button v-if="dat.tid !== 0"
+            class="delete_button text-danger"
+            type="button"
+            @click="deleteDown(dat.tid)">
+            <span aria-label="다운로드 삭제">×</span>
+          </button>
+        </div>
+        <b-progress v-if="dat.tid !== 0" :value="dat.done" :max="max" show-progress animated></b-progress>
       </div>
       <!-- Paging Component -->
       <b-button
@@ -106,12 +136,12 @@ export default {
       showLoader: false,
       showPaging: true,
       searchInput: '',
-      counter: 45,
       max: 100,
-      progress: false,
       removeReload: false,
       lastPage: false,
-      downloading: []
+      dismissSecs: 10,
+      dismissCountDown: 0,
+      alertMessage: ''
     }
   },
   async asyncData ({ app }) {
@@ -126,14 +156,32 @@ export default {
   },
   beforeMount () {
     socket.on('send-downloading', (node) => {
-      this.downloading.push(node)
-      console.log(node.percentDone * 100)
+      // this.downloading.push(node)
+      for (var i = 0; i < this.data.length; i++) {
+        if (this.data[i].tid === node.id) {
+          this.data[i].done = node.percentDone * 100
+          if (this.data[i].done === 100) {
+            this.data[i].tid = 0
+            this.data[i].done = 0
+            this.data[i].target = ''
+            this.dismissCountDown = this.dismissSecs
+            this.alertMessage = this.data[i].title + 'download complete aaaaaaaa'
+          }
+          break
+        }
+      }
     })
     socket.on('send-error', (err) => {
       alert(err)
     })
   },
   methods: {
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert () {
+      this.dismissCountDown = this.dismissSecs
+    },
     showModal: function (dat, event) {
       this.modal.title = 'Transmission'
       this.modal.dat = dat
@@ -161,6 +209,14 @@ export default {
           if (ret === 'success') {
             socket.emit('add-download', res.data)
 
+            for (var i = 0; i < this.data.length; i++) {
+              if (this.data[i].no === this.modal.dat.no) {
+                this.data[i].tid = res.data.id
+                this.data[i].target = this.modal.dat.target
+                break
+              }
+            }
+
             this.modal.bodyClass = 'hide'
             this.modal.successMark = true
             this.modal.textVariant = 'success'
@@ -174,6 +230,22 @@ export default {
           this.modal.textVariant = 'danger'
           this.modal.title = 'Error'
           this.modal.name = err.message
+        })
+    },
+    deleteDown: function (id) {
+      axios.post('/api/delete', { 'id': id })
+        .then(res => {
+          for (var i = 0; i < this.data.length; i++) {
+            if (this.data[i].tid === id) {
+              this.data[i].tid = 0
+              this.data[i].done = 0
+              this.data[i].target = ''
+              break
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err)
         })
     },
     next: function () {
@@ -329,6 +401,14 @@ export default {
     margin: -7px 0;
     align-items: stretch;
     flex-direction: column;
+}
+
+.delete_button {
+    cursor: pointer;
+    font: 27px/25px arial,sans-serif;
+    align-items: center;
+    border: 0;
+    background: transparent;
 }
 
 .clear_button {

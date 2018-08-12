@@ -8,9 +8,9 @@ router.post('/download', (req, res) => {
   const options = path === undefined ? {} : { 'download-dir': '/video/TV/' + path }
 
   const getDownload = () => new Promise((resolve, reject) => {
-    transmission.addUrl(link, options, (err, arg) => {
+    transmission.addUrl(link, options, (err, ret) => {
       if (err) reject(err)
-      resolve(arg)
+      resolve(ret)
     })
   })
 
@@ -25,6 +25,32 @@ router.post('/download', (req, res) => {
   }
 
   getDownload()
+    .then(respond)
+    .catch(onError)
+})
+
+router.post('/delete', (req, res) => {
+  const { id } = req.body
+  const option = true
+
+  const deleteDownload = () => new Promise((resolve, reject) => {
+    transmission.delete(id, option, (err, ret) => {
+      if (err) reject(err)
+      resolve(ret)
+    })
+  })
+
+  // respond the token
+  const respond = (ret) => {
+    res.json(ret)
+  }
+
+  // error occured
+  const onError = (err) => {
+    res.status(403).json(err)
+  }
+
+  deleteDownload()
     .then(respond)
     .catch(onError)
 })

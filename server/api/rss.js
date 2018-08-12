@@ -17,6 +17,9 @@ router.get('/rss', async (req, res) => {
     '     , rss_season ' +
     '     , rss_quality ' +
     '     , rss_release_group ' +
+    '     , 0 AS tid ' +
+    '     , 0 AS done ' +
+    '     , \'\' AS target ' +
     'FROM  "RSS" ' +
     'WHERE  title LIKE concat(\'%' + title + '%\')' +
     'ORDER BY no DESC ' +
