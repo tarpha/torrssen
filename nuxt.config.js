@@ -16,12 +16,6 @@ module.exports = {
     ]
   },
   /*
-  ** env
-  */
-  env: {
-    WS_URL: process.env.WS_URL + ':' + process.env.PORT || 'http://localhost:3000'
-  },
-  /*
   ** Global CSS
   */
   css: ['~/assets/css/main.css'],
