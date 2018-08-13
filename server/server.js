@@ -35,13 +35,40 @@ let intervalObj = ''
 io.on('connection', (socket) => {
   socket.on('add-download', function (node) {
     download.push({ 'node': node, 'socket': socket })
-
+    /*
     if (intervalObj === '') {
       intervalObj = setInterval(intervalFunc, 1000)
     }
+    */
+  })
+
+  socket.on('check-download', function (id) {
+    const getTorrentDetails = (id) => new Promise((resolve, reject) => {
+      transmission.get(id, (err, ret) => {
+        if (err) reject(err)
+        resolve(ret)
+      })
+    })
+
+    const respond = (result) => {
+      if (result.torrents.length > 0) {
+        socket.emit('send-downloading-' + id, result.torrents[0])
+      } else {
+        socket.emit('send-done-' + id, result)
+      }
+    }
+
+    const onError = (err) => {
+      socket.emit('send-error-' + id, err.message)
+    }
+
+    getTorrentDetails(id)
+      .then(respond)
+      .catch(onError)
   })
 })
 
+/*
 const intervalFunc = function () {
   if (download.length === 0) {
     clearInterval(intervalObj)
@@ -82,3 +109,4 @@ const intervalFunc = function () {
     }
   })
 }
+*/

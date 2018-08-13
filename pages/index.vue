@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <b-navbar variant="faded" type="light" class="navi" style="padding: 0.5rem 0 0 0;" sticky fixed>
     <div class="container">
       <div class="box">
@@ -78,7 +77,10 @@
             <span aria-label="다운로드 삭제">×</span>
           </button>
         </div>
+        <!--
         <b-progress v-if="dat.tid !== 0" :value="dat.done" :max="max" show-progress animated></b-progress>
+        -->
+        <nuxt-progress v-if="dat.tid !== 0" :id="dat.tid" index=0></nuxt-progress>
       </div>
       <!-- Paging Component -->
       <b-button
@@ -120,9 +122,13 @@
 
 <script>
 import axios from '~/plugins/axios'
-import socket from '~/plugins/socket.io.js'
+// import socket from '~/plugins/socket.io.js'
+import NuxtProgress from '~/components/Progress.vue'
 
 export default {
+  components: {
+    NuxtProgress
+  },
   data () {
     return {
       search: '',
@@ -161,6 +167,7 @@ export default {
     })
     return { data: res.data }
   },
+  /*
   beforeMount () {
     socket.on('send-downloading', (node) => {
       // this.downloading.push(node)
@@ -182,6 +189,7 @@ export default {
       alert(err)
     })
   },
+  */
   methods: {
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown
@@ -217,7 +225,7 @@ export default {
 
           // if (res.data.result === 'success') {
           if (ret === 'success') {
-            socket.emit('add-download', res.data)
+            // socket.emit('add-download', res.data)
 
             for (var i = 0; i < this.data.length; i++) {
               if (this.data[i].no === this.modal.dat.no) {
