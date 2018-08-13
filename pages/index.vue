@@ -1,6 +1,8 @@
 <template>
   <div>
-    <b-navbar variant="faded" type="light" class="container navi" sticky fixed>
+
+    <b-navbar variant="faded" type="light" class="navi" style="padding: 0.5rem 0 0 0;" sticky fixed>
+    <div class="container">
       <div class="box">
         <b-alert :show="dismissCountDown"
             dismissible
@@ -21,24 +23,26 @@
             <div class="a4bIc">
               <input v-model="searchInput" @keyup.enter="searchTitle" class="gLFyf" maxlength="2048" type="search" title="검색" aria-label="검색" placeholder="Title Search"/>
             </div>
-              <div v-if="searchInput != ''" class="remove">
-                <button class="clear_button" type="button" @click="remove">
-                  <span aria-label="검색어 지우기">×</span>
-                </button>
-              </div>
+            <div v-if="searchInput != ''" class="remove">
+              <button class="clear_button" type="button" @click="remove">
+                <span aria-label="검색어 지우기">×</span>
+              </button>
             </div>
-            <button class="Tg7LZd" aria-label="Google 검색" type="button" @click="searchTitle">
-              <div class="gBCQ5d">
-                <span class="z1asCe MZy1Rb">
-                  <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                  </svg>
-                </span>
-              </div>
-            </button>
           </div>
+          <button class="Tg7LZd" aria-label="Google 검색" type="button" @click="searchTitle">
+            <div class="gBCQ5d">
+              <span class="z1asCe MZy1Rb">
+                <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+              </span>
+            </div>
+          </button>
+        </div>
       </div>
+    </div>
     </b-navbar>
+
     <div class="container">
       <div class="card" v-for="dat in data" :key="dat.no" >
         <h5>{{ dat.rss_title !== undefined ? dat.rss_title : 'ERROR' }}</h5>
@@ -398,7 +402,6 @@ export default {
     display: flex;
     flex: 1;
     -webkit-tap-highlight-color: transparent;
-    width: 100%;
 }
 
 .remove {
