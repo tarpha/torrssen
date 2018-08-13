@@ -8,37 +8,56 @@
       class="d-flex justify-content-between align-items-center">
       <b-link
         :disabled="dat.tid !== 0"
-        @click="showModal({'no': dat.no, 'name': dat.title, 'link': dat.link, 'target': 'download'})">
+        @click="showModal({
+          'no': dat.no,
+          'name': dat.title,
+          'link': dat.link,
+          'index': index,
+          'target': 'download',
+          'title': 'Transmission'})">
         <small>/download</small>
       </b-link>
-      <nuxt-delete-button v-if="dat.tid !== 0" @click="deleteDown(dat.tid)"></nuxt-delete-button>
+      <nuxt-delete-button v-if="dat.tid !== 0" :tid="dat.tid" :index="this.index"></nuxt-delete-button>
     </div>
     <div v-if="dat.tid === 0 || dat.target === 'video'"
       class="d-flex justify-content-between align-items-center">
       <b-link
         :disabled="dat.tid !== 0"
         class="d-inline-block text-truncate"
-        @click="showModal({'no': dat.no, 'name': dat.title, 'link': dat.link, 'path': dat.rss_title, 'target': 'video'})">
+        @click="showModal({
+          'no': dat.no,
+          'name': dat.title,
+          'link': dat.link,
+          'path': dat.rss_title,
+          'index': index,
+          'target': 'video',
+          'title': 'Transmission'})">
         <small>/video/TV/{{ dat.rss_title }}</small>
       </b-link>
-      <nuxt-delete-button v-if="dat.tid !== 0" @click="deleteDown(dat.tid)"></nuxt-delete-button>
+      <nuxt-delete-button v-if="dat.tid !== 0" :tid="dat.tid" :index="this.index"></nuxt-delete-button>
     </div>
     <nuxt-progress v-if="dat.tid !== 0" :id="dat.tid"></nuxt-progress>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import axios from '~/plugins/axios'
 import NuxtProgress from '~/components/Progress.vue'
 import NuxtDeleteButton from '~/components/DeleteButton.vue'
 
 export default {
   components: {
-    NuxtProgress
+    NuxtProgress,
+    NuxtDeleteButton
   },
   props: {
     dat: {
       type: Object,
+      required: true
+    },
+    index: {
+      type: Number,
       required: true
     }
   },
@@ -57,17 +76,9 @@ export default {
     }
   },
   methods: {
-    showModal: function (dat, event) {
-      this.modal.title = 'Transmission'
-      this.modal.dat = dat
-      this.modal.name = dat.name
-      this.modal.textVariant = ''
-      this.modal.bodyClass = ''
-      this.modal.successMark = false
-      this.modal.path = dat.path === undefined ? undefined : '/video/TV/' + dat.path
-
-      this.$refs.dnModalRef.show()
-    },
+    ...mapMutations([
+      'showModal'
+    ]),
     download: function () {
       axios.post('/api/download', this.modal.dat)
         .then(res => {
@@ -102,6 +113,7 @@ export default {
         })
     },
     deleteDown: function (id) {
+      console.log('delete')
       axios.post('/api/delete', { 'id': id })
         .then(res => {
           for (var i = 0; i < this.data.length; i++) {
