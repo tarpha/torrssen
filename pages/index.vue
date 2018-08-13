@@ -3,21 +3,24 @@
     <b-navbar variant="faded" type="light" class="container navi" sticky fixed>
       <div class="box">
         <b-alert :show="dismissCountDown"
-               dismissible
-               variant="warning"
-               @dismissed="dismissCountDown=0"
-               @dismiss-count-down="countDownChanged">
+            dismissible
+            variant="info"
+            @dismissed="dismissCountDown=0"
+            @dismiss-count-down="countDownChanged"
+            style="margin-bottom: 0;">
+          <h6>Download complete</h6>
           <p class="text-truncate">{{ alertMessage }}</p>
-          <b-progress variant="warning"
-                      :max="dismissSecs"
-                      :value="dismissCountDown"
-                      height="4px">
+          <b-progress variant="info"
+             :max="dismissSecs"
+             :value="dismissCountDown"
+             height="4px">
           </b-progress>
         </b-alert>
         <div class="zGVn2e">
           <div class="SDkEP">
             <div class="a4bIc">
-              <input v-model="searchInput" @keyup.enter="searchTitle" class="gLFyf" maxlength="2048" type="search" title="검색" aria-label="검색" placeholder="Title Search"></div>
+              <input v-model="searchInput" @keyup.enter="searchTitle" class="gLFyf" maxlength="2048" type="search" title="검색" aria-label="검색" placeholder="Title Search"/>
+            </div>
               <div v-if="searchInput != ''" class="remove">
                 <button class="clear_button" type="button" @click="remove">
                   <span aria-label="검색어 지우기">×</span>
@@ -165,7 +168,7 @@ export default {
             this.data[i].done = 0
             this.data[i].target = ''
             this.dismissCountDown = this.dismissSecs
-            this.alertMessage = this.data[i].title + 'download complete aaaaaaaa'
+            this.alertMessage = this.data[i].title
           }
           break
         }
@@ -183,6 +186,9 @@ export default {
       this.dismissCountDown = this.dismissSecs
     },
     showModal: function (dat, event) {
+      // this.dismissCountDown = this.dismissSecs
+      // this.alertMessage = dat.name
+
       this.modal.title = 'Transmission'
       this.modal.dat = dat
       this.modal.name = dat.name
@@ -407,6 +413,7 @@ export default {
     cursor: pointer;
     font: 27px/25px arial,sans-serif;
     align-items: center;
+    padding: 0 0 0 5px;
     border: 0;
     background: transparent;
 }

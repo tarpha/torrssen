@@ -77,6 +77,8 @@ const intervalFunc = function () {
   })
 
   donelist.forEach(el => {
-    download.splice(download.indexOf(el), 1)
+    if (download.indexOf(el) !== -1) {
+      download.splice(download.indexOf(el), 1)
+    }
   })
 }
