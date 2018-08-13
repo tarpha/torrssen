@@ -16,9 +16,7 @@ const store = () => new Vuex.Store({
     }
   },
   getters: {
-    getTorr: state => state.torr,
-    getTid: state => state.torr.tid,
-    getInx: state => state.torr.index
+    getTorr: state => state.torr
   },
   mutations: {
     setTorr (state, torr) {
