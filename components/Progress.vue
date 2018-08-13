@@ -10,10 +10,6 @@ export default {
     id: {
       type: Number,
       required: true
-    },
-    index: {
-      type: Number,
-      required: true
     }
   },
   data () {
@@ -34,7 +30,6 @@ export default {
       if (this.intervalObj !== '') {
         clearInterval(this.intervalObj)
       }
-      console.log(ret)
     })
   },
   mounted () {

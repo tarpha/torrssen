@@ -80,7 +80,7 @@
         <!--
         <b-progress v-if="dat.tid !== 0" :value="dat.done" :max="max" show-progress animated></b-progress>
         -->
-        <nuxt-progress v-if="dat.tid !== 0" :id="dat.tid" :index="0"></nuxt-progress>
+        <nuxt-progress v-if="dat.tid !== 0" :id="dat.tid"></nuxt-progress>
       </div>
       <!-- Paging Component -->
       <b-button

@@ -29,8 +29,8 @@ server.listen(port, '0.0.0.0')
 
 // Socket.io
 const download = []
-let donelist = []
-let intervalObj = ''
+// let donelist = []
+// let intervalObj = ''
 
 io.on('connection', (socket) => {
   socket.on('add-download', function (node) {
