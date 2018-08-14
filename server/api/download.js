@@ -5,7 +5,7 @@ const router = Router()
 
 router.post('/download', (req, res) => {
   const { link, path } = req.body
-  const options = path === undefined ? {} : { 'download-dir': '/video/TV/' + path }
+  const options = path === undefined ? {} : { 'download-dir': path }
 
   const getDownload = () => new Promise((resolve, reject) => {
     transmission.addUrl(link, options, (err, ret) => {

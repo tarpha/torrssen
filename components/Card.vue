@@ -15,7 +15,7 @@
           'index': index,
           'target': 'download',
           'title': 'Transmission'})">
-        <small>/download</small>
+        <small>{{ downloadPath }}</small>
       </b-link>
       <nuxt-delete-button v-if="dat.tid !== 0" :tid="dat.tid" :index="this.index"></nuxt-delete-button>
     </div>
@@ -28,11 +28,11 @@
           'no': dat.no,
           'name': dat.title,
           'link': dat.link,
-          'path': dat.rss_title,
+          'path': asTitlePath + dat.rss_title,
           'index': index,
           'target': 'video',
           'title': 'Transmission'})">
-        <small>/video/TV/{{ dat.rss_title }}</small>
+        <small>{{ asTitlePath + dat.rss_title }}</small>
       </b-link>
       <nuxt-delete-button v-if="dat.tid !== 0" :tid="dat.tid" :index="this.index"></nuxt-delete-button>
     </div>
@@ -77,7 +77,9 @@ export default {
         bodyClass: '',
         successMark: '',
         dat: {}
-      }
+      },
+      downloadPath: process.env.DOWNLOAD,
+      asTitlePath: process.env.ASTITLE
     }
   },
   methods: {

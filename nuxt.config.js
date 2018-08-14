@@ -1,6 +1,10 @@
 require('dotenv').config()
 
 module.exports = {
+  env: {
+    DOWNLOAD: process.env.DOWNLOAD || '/download',
+    ASTITLE: process.env.ASTITLE || '/video/TV/'
+  },
   /*
   ** Headers of the page
   */
