@@ -14,7 +14,7 @@ install [yarn](https://yarnpkg.com) (optional. but recommanded)
 
 Rename and fill *env-default-rename-to.env* file to .env
 
-Generated Table **RSS** as /sql/ddl/rrs.sql
+Generated Table **RSS** as `sql/ddl/rrs.sql`
 
 ## Build Setup
 
