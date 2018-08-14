@@ -6,9 +6,10 @@ This is Web UI which can output RSS list stored in DB and send the download requ
 
 Optimized for iPhone screen size
 
-## Setting Env
+## Env Setup
 
 install [Node.js](https://nodejs.org)
+
 install [yarn](https://yarnpkg.com) (optional. but recommanded)
 
 Rename and fill *env-default-rename-to.env* file to .env
