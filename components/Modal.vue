@@ -6,8 +6,8 @@
     class="d-inline-block"
     hide-footer>
     <div v-if="this.modal.showBody">
-      <h6 class="my-4 text-truncate">{{this.modal.data.name}}</h6>
-      <p class="text-success text-truncate">{{this.modal.data.path == undefined ? '/download' : this.modal.data.path}}</p>
+      <h6 class="my-4 text-truncate">{{ this.modal.data.name.trim() }}</h6>
+      <p class="text-success text-truncate">{{ this.modal.data.path == undefined ? '/download' : this.modal.data.path }}</p>
     </div>
     <div v-if="this.modal.successMark">
       <div class="check_mark">
