@@ -1,10 +1,8 @@
 # torrssen
 
 > RSS + [Transmission](https://transmissionbt.com/) + [PostgreSQL](https://www.postgresql.org/) + [Nuxt.js](https://nuxtjs.org/) project
-
-> This is Web UI which can output RSS list stored in DB and send the download request by Transmission
-
-> Optimized for iPhone screen size
+This is Web UI which can output RSS list stored in DB and send the download request by Transmission
+Optimized for iPhone screen size
 
 ## Setting Env
 
