@@ -25,7 +25,9 @@ const store = () => new Vuex.Store({
   },
   getters: {
     getTorr: state => state.torr,
-    getSearchInput: state => state.searchInput
+    getSearchInput: state => state.searchInput,
+    getModalName: state => state.modal.data.name === undefined ? '' : state.modal.data.name.trim(),
+    getModalPath: state => state.modal.data.path === undefined ? process.env.DOWNLOAD : state.modal.data.path
   },
   mutations: {
     setSearchInput (state, searchInput) {

@@ -6,8 +6,8 @@
     class="d-inline-block"
     hide-footer>
     <div v-if="this.modal.showBody">
-      <h6 class="my-4 text-truncate">{{ this.modal.data.name === undefined ? '' : this.modal.data.name.trim() }}</h6>
-      <p class="text-success text-truncate">{{ this.modal.data.path === undefined ? '/download' : this.modal.data.path }}</p>
+      <h6 class="my-4 text-truncate">{{ this.getModalName }}</h6>
+      <p class="text-success text-truncate">{{ this.getModalPath }}</p>
     </div>
     <div v-if="this.modal.successMark">
       <div class="check_mark">
@@ -21,19 +21,25 @@
     </div>
     <div v-if="this.modal.showBody">
       <hr/>
-      <b-button block variant="link" @click="download()">Download Request</b-button>
+      <b-button block variant="link" @click="download">Download Request</b-button>
     </div>
   </b-modal>
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import axios from '~/plugins/axios'
 
 export default {
-  computed: mapState([
-    'modal'
-  ]),
+  computed: {
+    ...mapState([
+      'modal'
+    ]),
+    ...mapGetters([
+      'getModalName',
+      'getModalPath'
+    ])
+  },
   methods: {
     ...mapMutations([
       'setTorr',
