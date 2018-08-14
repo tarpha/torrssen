@@ -37,7 +37,8 @@ export default {
   methods: {
     ...mapMutations([
       'setTorr',
-      'hideModal'
+      'hideModal',
+      'setAlert'
     ]),
     download: function () {
       axios.post('/api/download', this.modal.data)
@@ -52,19 +53,11 @@ export default {
               'target': this.modal.data.target,
               'index': this.modal.data.index
             })
-            /*
-            for (var i = 0; i < this.data.length; i++) {
-              if (this.data[i].no === this.modal.dat.no) {
-                this.data[i].tid = res.data.id
-                this.data[i].target = this.modal.dat.target
-                break
-              }
-            }
-            */
 
             this.modal.showBody = false
             this.modal.successMark = true
             this.modal.textVariant = 'success'
+            this.setAlert({ 'variant': 'success', 'title': 'Download complete' })
             setTimeout(() => { this.hideModal() }, 2000)
           } else {
             this.modal.textVariant = 'danger'

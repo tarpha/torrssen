@@ -43,6 +43,7 @@ export default {
           'target': '',
           'index': this.index
         })
+        console.log('done', this.done)
         this.showAlert(this.name.trim())
       }
     })

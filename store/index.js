@@ -17,7 +17,9 @@ const store = () => new Vuex.Store({
     alert: {
       message: '',
       dismissSecs: 10,
-      dismissCountDown: 0
+      dismissCountDown: 0,
+      variant: '',
+      title: ''
     },
     searchInput: ''
   },
@@ -31,6 +33,10 @@ const store = () => new Vuex.Store({
     },
     setAlertCountDown (state, dismissCountDown) {
       state.alert.dismissCountDown = dismissCountDown
+    },
+    setAlert (state, alert) {
+      state.alert.variant = alert.variant
+      state.alert.title = alert.title
     },
     showAlert (state, message) {
       state.alert.message = message

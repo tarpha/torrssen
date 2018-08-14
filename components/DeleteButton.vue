@@ -21,7 +21,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setTorr'
+      'setTorr',
+      'setAlert'
     ]),
     deleteDown: function () {
       axios.post('/api/delete', { 'id': this.tid })
@@ -31,6 +32,7 @@ export default {
             'target': '',
             'index': this.index
           })
+          this.setAlert({ 'variant': 'danger', 'title': 'Stop and Delete' })
         })
         .catch((err) => {
           alert.log(err)
