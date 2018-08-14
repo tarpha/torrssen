@@ -9,7 +9,6 @@ Optimized for iPhone screen size
 ## Setting Env
 
 install [Node.js](https://nodejs.org)
-
 install [yarn](https://yarnpkg.com) (optional. but recommanded)
 
 Rename and fill *env-default-rename-to.env* file to .env
