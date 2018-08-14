@@ -3,11 +3,20 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import socket from '~/plugins/socket.io.js'
 
 export default {
   props: {
     id: {
+      type: Number,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    index: {
       type: Number,
       required: true
     }
@@ -29,6 +38,12 @@ export default {
     socket.on('send-done-' + this.id, (ret) => {
       if (this.intervalObj !== '') {
         clearInterval(this.intervalObj)
+        this.setTorr({
+          'tid': 0,
+          'target': '',
+          'index': this.index
+        })
+        this.showAlert(this.name.trim())
       }
     })
   },
@@ -38,6 +53,12 @@ export default {
         socket.emit('check-download', this.id)
       }, 1000)
     })
+  },
+  methods: {
+    ...mapMutations([
+      'showAlert',
+      'setTorr'
+    ])
   }
 }
 </script>

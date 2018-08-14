@@ -6,19 +6,36 @@ const store = () => new Vuex.Store({
       show: false,
       data: {},
       textVariant: '',
-      bodyClass: '',
+      showBody: true,
       successMark: false
     },
     torr: {
       index: 0,
       tid: 0,
       target: ''
-    }
+    },
+    alert: {
+      message: '',
+      dismissSecs: 10,
+      dismissCountDown: 0
+    },
+    searchInput: ''
   },
   getters: {
-    getTorr: state => state.torr
+    getTorr: state => state.torr,
+    getSearchInput: state => state.searchInput
   },
   mutations: {
+    setSearchInput (state, searchInput) {
+      state.searchInput = searchInput
+    },
+    setAlertCountDown (state, dismissCountDown) {
+      state.alert.dismissCountDown = dismissCountDown
+    },
+    showAlert (state, message) {
+      state.alert.message = message
+      state.alert.dismissCountDown = state.alert.dismissSecs
+    },
     setTorr (state, torr) {
       state.torr.tid = torr.tid
       state.torr.target = torr.target
@@ -27,13 +44,14 @@ const store = () => new Vuex.Store({
     showModal (state, data) {
       state.modal.show = true
       state.modal.data = data
+      state.modal.showBody = true
+      state.modal.textVariant = ''
+      state.modal.showBody = true
+      state.modal.successMark = false
     },
     hideModal (state) {
       state.modal.show = false
       state.modal.data = {}
-      state.modal.textVariant = ''
-      state.modal.bodyClass = ''
-      state.modal.successMark = ''
     }
   }
 })

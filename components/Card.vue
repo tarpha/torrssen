@@ -36,7 +36,12 @@
       </b-link>
       <nuxt-delete-button v-if="dat.tid !== 0" :tid="dat.tid" :index="this.index"></nuxt-delete-button>
     </div>
-    <nuxt-progress v-if="dat.tid !== 0" :id="dat.tid"></nuxt-progress>
+    <nuxt-progress
+      v-if="dat.tid !== 0"
+      :id="dat.tid"
+      :name="dat.title"
+      :index="this.index">
+    </nuxt-progress>
   </div>
 </template>
 

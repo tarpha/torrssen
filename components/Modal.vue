@@ -2,14 +2,14 @@
   <b-modal
     v-model="$store.state.modal.show"
     :title="this.modal.data.title"
-    :header-text-variant="this.modal.data.textVariant"
+    :header-text-variant="this.modal.textVariant"
     class="d-inline-block"
     hide-footer>
-    <div :class="this.modal.data.bodyClass">
+    <div v-if="this.modal.showBody">
       <h6 class="my-4 text-truncate">{{this.modal.data.name}}</h6>
       <p class="text-success text-truncate">{{this.modal.data.path == undefined ? '/download' : this.modal.data.path}}</p>
     </div>
-    <div v-if="this.modal.data.successMark">
+    <div v-if="this.modal.successMark">
       <div class="check_mark">
         <div class="sa-icon sa-success animate">
           <span class="sa-line sa-tip animateSuccessTip"></span>
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div :class="this.modal.data.bodyClass">
+    <div v-if="this.modal.showBody">
       <hr/>
       <b-button block variant="link" @click="download()">Download Request</b-button>
     </div>
@@ -62,17 +62,17 @@ export default {
             }
             */
 
-            this.modal.data.bodyClass = 'hide'
-            this.modal.data.successMark = true
-            this.modal.data.textVariant = 'success'
+            this.modal.showBody = false
+            this.modal.successMark = true
+            this.modal.textVariant = 'success'
             setTimeout(() => { this.hideModal() }, 2000)
           } else {
-            this.modal.data.textVariant = 'danger'
+            this.modal.textVariant = 'danger'
           }
         })
         .catch((err) => {
           alert(err)
-          this.modal.data.textVariant = 'danger'
+          this.modal.textVariant = 'danger'
           this.modal.data.title = 'Error'
           this.modal.data.name = err.message
         })
