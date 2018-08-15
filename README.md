@@ -14,7 +14,19 @@ install [yarn](https://yarnpkg.com) (optional. but recommanded)
 
 Rename and fill *env-default-rename-to.env* file to .env
 
-Generated **RSS** table as `sql/ddl/rrs.sql`
+### Reader Setup
+
+option 1. DB
+
+    Set READER env variable to **DB** (inside .env file)
+
+    Generated **RSS** table as `sql/ddl/rrs.sql`
+
+option 2. Url
+ 
+    Set READER env variable to **RSS** (inside .env file)
+    
+    Set RSSURL env variable to {site url}
 
 ## Build Setup
 
