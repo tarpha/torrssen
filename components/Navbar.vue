@@ -10,11 +10,11 @@
             </div>
             <div v-if="searchInput != ''" class="remove">
               <button class="clear_button" type="button" @click="remove">
-                <span aria-label="검색어 지우기">×</span>
+                <span>×</span>
               </button>
             </div>
           </div>
-          <button class="Tg7LZd" aria-label="Google 검색" type="button" @click="setSearchInput(searchInput)">
+          <button :class="bottonClass" type="button" @click="setSearchInput(searchInput)">
             <div class="gBCQ5d">
               <span class="z1asCe MZy1Rb">
                 <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import NuxtAlert from '~/components/Alert.vue'
 
 export default {
@@ -39,7 +39,8 @@ export default {
   },
   data () {
     return {
-      searchInput: ''
+      searchInput: '',
+      bottonClass: 'search-button'
     }
   },
   methods: {
@@ -49,6 +50,23 @@ export default {
     remove: function () {
       this.searchInput = ''
       this.setSearchInput('')
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'getAlertCount'
+    ])
+  },
+  watch: {
+    'getAlertCount': {
+      handler: function () {
+        if (this.getAlertCount === 0) {
+          this.bottonClass = 'search-button'
+        } else {
+          this.bottonClass = 'search-button no-top-right-radius'
+        }
+      },
+      deep: true
     }
   }
 }
@@ -121,7 +139,7 @@ export default {
     background: transparent;
 }
 
-.Tg7LZd {
+.search-button {
     align-items: flex-start;
     border-radius: 0;
     -webkit-border-top-right-radius: 8px;
@@ -132,6 +150,7 @@ export default {
     border: 1px solid #3367d6;
     flex: 0 0 auto;
     padding: 0;
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
 }
 
 .gBCQ5d {
@@ -149,5 +168,9 @@ export default {
     line-height: 24px;
     position: relative;
     width: 24px;
+}
+
+.no-top-right-radius {
+    -webkit-border-top-right-radius: 0;
 }
 </style>

@@ -18,13 +18,14 @@ const store = () => new Vuex.Store({
       message: '',
       dismissSecs: 10,
       dismissCountDown: 0,
-      variant: '',
+      variant: 'danger',
       title: ''
     },
     searchInput: ''
   },
   getters: {
     getTorr: state => state.torr,
+    getAlertCount: state => state.alert.dismissCountDown,
     getSearchInput: state => state.searchInput,
     getModalName: state => state.modal.data.name === undefined ? '' : state.modal.data.name.trim(),
     getModalPath: state => state.modal.data.path === undefined ? process.env.DOWNLOAD : state.modal.data.path
