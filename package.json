@@ -21,6 +21,7 @@
     "express-promise-router": "^3.0.3",
     "nuxt": "latest",
     "pg": "^7.4.3",
+    "rss-parser": "^3.4.3",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "source-map-support": "^0.4.15",

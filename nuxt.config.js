@@ -3,7 +3,8 @@ require('dotenv').config()
 module.exports = {
   env: {
     DOWNLOAD: process.env.DOWNLOAD || '/download',
-    ASTITLE: process.env.ASTITLE || '/video/TV/'
+    ASTITLE: process.env.ASTITLE || '/video/TV/',
+    READER: process.env.READER || 'DB'
   },
   /*
   ** Headers of the page

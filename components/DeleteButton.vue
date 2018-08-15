@@ -35,7 +35,7 @@ export default {
           this.setAlert({ 'variant': 'danger', 'title': 'Stop and Delete' })
         })
         .catch((err) => {
-          alert.log(err)
+          alert(err)
         })
     }
   }

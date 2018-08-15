@@ -1,25 +1,29 @@
 <template>
   <div>
+    <!-- full loader -->
+    <div v-if="PageLoadingShow" class="loading">Loading&#8230;</div>
     <!-- Navbar Component -->
     <nuxt-navbar></nuxt-navbar>
-    <div class="container">
-      <!-- Card Component -->
-      <nuxt-card
-        v-for="(dat, index) in this.data"
-        :dat="dat"
-        :index="index"
-        :key="dat.no">
-      </nuxt-card>
-      <!-- Paging Component -->
-      <b-button
-        block variant="link sm"
-        @click="next" v-if="showPaging" style="margin-top: 0.4em;">
-        결과 더 보기
-      </b-button>
-      <p class="last text-success" v-if="lastPage">마지막 페이지 입니다</p>
-      <div class="loader" v-if="showLoader"></div>
-      <!-- Modal Component -->
-      <nuxt-modal></nuxt-modal>
+    <div :class="PageLoadingClass">
+      <div class="container">
+        <!-- Card Component -->
+        <nuxt-card
+          v-for="(dat, index) in this.data"
+          :dat="dat"
+          :index="index"
+          :key="dat.no">
+        </nuxt-card>
+        <!-- Paging Component -->
+        <b-button
+          block variant="link sm"
+          @click="next" v-if="showPaging" style="margin-top: 0.4em;">
+          결과 더 보기
+        </b-button>
+        <p class="last text-success" v-if="lastPage">마지막 페이지 입니다</p>
+        <div class="loader" v-if="showLoader"></div>
+        <!-- Modal Component -->
+        <nuxt-modal></nuxt-modal>
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +34,8 @@ import axios from '~/plugins/axios'
 import NuxtCard from '~/components/Card.vue'
 import NuxtModal from '~/components/Modal.vue'
 import NuxtNavbar from '~/components/Navbar.vue'
+
+const rssApiUrl = '/api/rss' + (process.env.READER === 'RSS' ? '/php' : '')
 
 export default {
   components: {
@@ -57,7 +63,12 @@ export default {
         this.lastPage = false
         this.showLoader = false
 
-        axios.get('/api/rss', {
+        this.PageLoadingShow = true
+
+        this.PageLoadingClass = 'blur-filter'
+        this.PageLoadingShow = true
+
+        axios.get(rssApiUrl, {
           params: {
             offset: 0,
             limit: this.paging.items,
@@ -66,6 +77,8 @@ export default {
         })
           .then(res => {
             this.data = res.data
+            this.PageLoadingClass = ''
+            this.PageLoadingShow = false
             window.scroll({ top: 0, left: 0, behavior: 'auto' })
           }).catch((error) => { alert(error) })
       }
@@ -79,11 +92,13 @@ export default {
       },
       showLoader: false,
       showPaging: true,
-      lastPage: false
+      lastPage: false,
+      PageLoadingClass: '',
+      PageLoadingShow: false
     }
   },
   async asyncData ({ app }) {
-    const res = await axios.get('/api/rss', {
+    const res = await axios.get(rssApiUrl, {
       params: {
         offset: 0,
         limit: 25
@@ -97,7 +112,7 @@ export default {
       this.showLoader = true
       this.paging.offset += this.paging.items
 
-      axios.get('/api/rss', {
+      axios.get(rssApiUrl, {
         params: {
           offset: this.paging.offset,
           limit: this.paging.items,
@@ -140,7 +155,8 @@ export default {
     width: 1.5em;
     height: 1.5em;
     animation: spin 1s linear infinite;
-    margin-top: 1rem;
+    margin-top: 0.9rem;
+    margin-bottom: 0.5rem;
     margin-left: auto;
     margin-right: auto;
 }
@@ -149,4 +165,63 @@ export default {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.blur-filter {
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+}
+
+/* Absolute Center Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 1.5em 0 0 0, rgba(0, 0, 0, 0.5) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) 0 1.5em 0 0, rgba(0, 0, 0, 0.5) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.5) 0 -1.5em 0 0, rgba(0, 0, 0, 0.5) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.5) 1.5em 0 0 0, rgba(0, 0, 0, 0.5) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) 0 1.5em 0 0, rgba(0, 0, 0, 0.5) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.5) 0 -1.5em 0 0, rgba(0, 0, 0, 0.5) 1.1em -1.1em 0 0;
+}
+
 </style>
