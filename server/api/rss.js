@@ -8,15 +8,17 @@ const parser = new Parser()
 const router = Router()
 
 router.get('/rss', async (req, res) => {
-  const { offset, limit, title } = req.query
+  let { offset, limit, title } = req.query
 
-  if (title) {
+  title = title === undefined ? '' : title
+
+  if (title && title.split(' ').length > 1) {
     const queryString = fs.readFileSync('sql/select_title.sql').toString()
     const { rows } = await db.query(queryString, [title, offset, limit])
     res.json(rows)
   } else {
     const queryString = fs.readFileSync('sql/select.sql').toString()
-    const { rows } = await db.query(queryString, [offset, limit])
+    const { rows } = await db.query(queryString, [title, offset, limit])
     res.json(rows)
   }
 })
