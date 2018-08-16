@@ -18,3 +18,6 @@ build
 
 # vs code
 .vscode
+
+# Mac temp files
+.DS_Store
