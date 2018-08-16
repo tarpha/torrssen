@@ -7,15 +7,18 @@ const parser = new Parser()
 
 const router = Router()
 
-const queryString = fs.readFileSync('sql/select.sql').toString()
-
 router.get('/rss', async (req, res) => {
-  const { offset, limit } = req.query
-  const title = req.query.title === undefined ? '' : req.query.title
+  const { offset, limit, title } = req.query
 
-  const { rows } = await db.query(queryString, [title, offset, limit])
-
-  res.json(rows)
+  if (title) {
+    const queryString = fs.readFileSync('sql/select_title.sql').toString()
+    const { rows } = await db.query(queryString, [title, offset, limit])
+    res.json(rows)
+  } else {
+    const queryString = fs.readFileSync('sql/select.sql').toString()
+    const { rows } = await db.query(queryString, [offset, limit])
+    res.json(rows)
+  }
 })
 
 router.get('/rss/php', async (req, res) => {

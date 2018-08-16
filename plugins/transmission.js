@@ -2,12 +2,17 @@ require('dotenv').config()
 
 const Transmission = require('transmission')
 
-const transmission = new Transmission({
-  'host': process.env.TMHOST,
-  'port': process.env.TMPORT,
-  'username': process.env.TMUSER,
-  'password': process.env.TMPASSWORD
-})
+const transmission = (process.env.TMUSER)
+  ? new Transmission({
+    'host': process.env.TMHOST,
+    'port': process.env.TMPORT,
+    'username': process.env.TMUSER,
+    'password': process.env.TMPASSWORD
+  })
+  : new Transmission({
+    'host': process.env.TMHOST,
+    'port': process.env.TMPORT
+  })
 
 module.exports = {
   addUrl: (url, options, callback) => transmission.addUrl(url, options, callback),

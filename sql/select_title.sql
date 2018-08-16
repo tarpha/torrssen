@@ -9,5 +9,6 @@ SELECT no
      , 0 AS tid
      , '' AS target
 FROM  "RSS"
+WHERE to_tsvector(regexp_replace(title, '[\.|-]', ' ', 'g')) @@ plainto_tsquery($1::text)
 ORDER BY no DESC
-OFFSET $1 LIMIT $2
+OFFSET $2 LIMIT $3
