@@ -13,12 +13,13 @@ module.exports = {
     title: 'torRSS by E+N',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1, viewport-fit=cover'
+      },
       { hid: 'description', name: 'description', content: 'torRSS.js project' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
   ** Global CSS
@@ -44,16 +45,7 @@ module.exports = {
     }
   },
   /*
-  serverMiddleware: [
-    // API middleware
-    '~/api/index.js'
-  ],
-  */
-  /*
   ** modules
   */
-  modules: [
-    'bootstrap-vue/nuxt',
-    '@nuxtjs/dotenv'
-  ]
+  modules: ['bootstrap-vue/nuxt', '@nuxtjs/dotenv']
 }
