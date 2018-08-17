@@ -32,9 +32,9 @@ const download = []
 // let donelist = []
 // let intervalObj = ''
 
-io.on('connection', (socket) => {
+io.on('connection', socket => {
   socket.on('add-download', function (node) {
-    download.push({ 'node': node, 'socket': socket })
+    download.push({ node: node, socket: socket })
     /*
     if (intervalObj === '') {
       intervalObj = setInterval(intervalFunc, 1000)
@@ -43,14 +43,15 @@ io.on('connection', (socket) => {
   })
 
   socket.on('check-download', function (id) {
-    const getTorrentDetails = (id) => new Promise((resolve, reject) => {
-      transmission.get(id, (err, ret) => {
-        if (err) reject(err)
-        resolve(ret)
+    const getTorrentDetails = id =>
+      new Promise((resolve, reject) => {
+        transmission.get(id, (err, ret) => {
+          if (err) reject(err)
+          resolve(ret)
+        })
       })
-    })
 
-    const respond = (result) => {
+    const respond = result => {
       if (result.torrents.length > 0) {
         socket.emit('send-downloading-' + id, result.torrents[0])
       } else {
@@ -58,7 +59,7 @@ io.on('connection', (socket) => {
       }
     }
 
-    const onError = (err) => {
+    const onError = err => {
       socket.emit('send-error-' + id, err.message)
     }
 

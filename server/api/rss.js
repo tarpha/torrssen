@@ -1,10 +1,9 @@
 const Router = require('express-promise-router')
 const fs = require('fs')
 const db = require('../../plugins/pg')
-
 const Parser = require('rss-parser')
-const parser = new Parser()
 
+const parser = new Parser()
 const router = Router()
 
 router.get('/rss', async (req, res) => {
@@ -15,10 +14,12 @@ router.get('/rss', async (req, res) => {
   if (title && title.split(' ').length > 1) {
     const queryString = fs.readFileSync('sql/select_title.sql').toString()
     const { rows } = await db.query(queryString, [title, offset, limit])
+
     res.json(rows)
   } else {
     const queryString = fs.readFileSync('sql/select.sql').toString()
     const { rows } = await db.query(queryString, [title, offset, limit])
+
     res.json(rows)
   }
 })
@@ -27,9 +28,11 @@ router.get('/rss/php', async (req, res) => {
   const { offset, limit } = req.query
   const title = req.query.title === undefined ? '' : '&k=' + req.query.title
 
-  const page = offset === 0 ? 1 : (offset / limit) + 1
+  const page = offset === 0 ? 1 : offset / limit + 1
 
-  const feed = await parser.parseURL(encodeURI(process.env.RSSURL + '&page=' + page + title))
+  const feed = await parser.parseURL(
+    encodeURI(process.env.RSSURL + '&page=' + page + title)
+  )
 
   const ret = []
   let index = offset
@@ -51,8 +54,11 @@ router.get('/rss/php', async (req, res) => {
     }
 
     el.no = index
-    el.title = el.title.replace(/(\.torrent|\.mkv|\.mp4|\.tp|\.ts)/ig, '')
-    el.rss_title = el.title.replace(/(\.torrent|\.mkv|\.mp4|\.tp|\.ts|360p|720p|1080p)/ig, '')
+    el.title = el.title.replace(/(\.torrent|\.mkv|\.mp4|\.tp|\.ts)/gi, '')
+    el.rss_title = el.title.replace(
+      /(\.torrent|\.mkv|\.mp4|\.tp|\.ts|360p|720p|1080p)/gi,
+      ''
+    )
     el.rss_episode = episode === null ? 0 : episode[1]
     el.rss_season = season === null ? 1 : season[1]
     el.rss_quality = quality === null ? '' : quality[0]

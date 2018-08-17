@@ -20,21 +20,19 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'setTorr',
-      'setAlert'
-    ]),
+    ...mapMutations(['setTorr', 'setAlert']),
     deleteDown: function () {
-      axios.post('/api/delete', { 'id': this.tid })
+      axios
+        .post('/api/delete', { id: this.tid })
         .then(res => {
           this.setTorr({
-            'tid': 0,
-            'target': '',
-            'index': this.index
+            tid: 0,
+            target: '',
+            index: this.index
           })
-          this.setAlert({ 'variant': 'danger', 'title': 'Stop and Delete' })
+          this.setAlert({ variant: 'danger', title: 'Stop and Delete' })
         })
-        .catch((err) => {
+        .catch(err => {
           alert(err)
         })
     }
@@ -44,11 +42,11 @@ export default {
 
 <style scoped>
 .delete_button {
-    cursor: pointer;
-    font: 27px/25px arial,sans-serif;
-    align-items: center;
-    padding: 0 0 0 5px;
-    border: 0;
-    background: transparent;
+  cursor: pointer;
+  font: 27px/25px arial, sans-serif;
+  align-items: center;
+  padding: 0 0 0 5px;
+  border: 0;
+  background: transparent;
 }
 </style>

@@ -44,20 +44,17 @@ export default {
     NuxtNavbar
   },
   computed: {
-    ...mapGetters([
-      'getTorr',
-      'getSearchInput'
-    ])
+    ...mapGetters(['getTorr', 'getSearchInput'])
   },
   watch: {
-    'getTorr': {
+    getTorr: {
       handler: function () {
         this.data[this.getTorr.index].tid = this.getTorr.tid
         this.data[this.getTorr.index].target = this.getTorr.target
       },
       deep: true
     },
-    'getSearchInput': {
+    getSearchInput: {
       handler: function () {
         this.showPaging = true
         this.lastPage = false
@@ -68,19 +65,23 @@ export default {
         this.PageLoadingClass = 'blur-filter'
         this.PageLoadingShow = true
 
-        axios.get(rssApiUrl, {
-          params: {
-            offset: 0,
-            limit: this.paging.items,
-            title: this.getSearchInput
-          }
-        })
+        axios
+          .get(rssApiUrl, {
+            params: {
+              offset: 0,
+              limit: this.paging.items,
+              title: this.getSearchInput
+            }
+          })
           .then(res => {
             this.data = res.data
             this.PageLoadingClass = ''
             this.PageLoadingShow = false
             window.scroll({ top: 0, left: 0, behavior: 'auto' })
-          }).catch((error) => { alert(error) })
+          })
+          .catch(error => {
+            alert(error)
+          })
       }
     }
   },
@@ -112,13 +113,14 @@ export default {
       this.showLoader = true
       this.paging.offset += this.paging.items
 
-      axios.get(rssApiUrl, {
-        params: {
-          offset: this.paging.offset,
-          limit: this.paging.items,
-          title: this.getSearchInput
-        }
-      })
+      axios
+        .get(rssApiUrl, {
+          params: {
+            offset: this.paging.offset,
+            limit: this.paging.items,
+            title: this.getSearchInput
+          }
+        })
         .then(res => {
           if (res.data.length === 0) {
             this.lastPage = true
@@ -133,7 +135,10 @@ export default {
               this.showLoader = false
             }, 1000)
           }
-        }).catch((error) => { alert(error) })
+        })
+        .catch(error => {
+          alert(error)
+        })
     }
   }
 }
@@ -141,37 +146,41 @@ export default {
 
 <style scoped>
 .last {
-    margin-top: 1em;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 /* loader */
 .loader {
-    border: 2px solid #f3f3f3; /* Light grey */
-    border-top: 2px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 1.5em;
-    height: 1.5em;
-    animation: spin 1s linear infinite;
-    margin-top: 0.9rem;
-    margin-bottom: 0.5rem;
-    margin-left: auto;
-    margin-right: auto;
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  animation: spin 1s linear infinite;
+  margin-top: 0.9rem;
+  margin-bottom: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .blur-filter {
-    -webkit-filter: blur(3px);
-    -moz-filter: blur(3px);
-    -o-filter: blur(3px);
-    -ms-filter: blur(3px);
-    filter: blur(3px);
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
 }
 
 /* Absolute Center Spinner */
@@ -197,7 +206,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255,255,255,0.3);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* :not(:required) hides these rules from IE9 and below */
@@ -220,8 +229,14 @@ export default {
   -webkit-animation: spin 1.5s linear infinite;
   animation: spin 1.5s linear infinite;
   border-radius: 0.5em;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 1.5em 0 0 0, rgba(0, 0, 0, 0.5) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) 0 1.5em 0 0, rgba(0, 0, 0, 0.5) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.5) 0 -1.5em 0 0, rgba(0, 0, 0, 0.5) 1.1em -1.1em 0 0;
-  box-shadow: rgba(0, 0, 0, 0.5) 1.5em 0 0 0, rgba(0, 0, 0, 0.5) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) 0 1.5em 0 0, rgba(0, 0, 0, 0.5) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.5) 0 -1.5em 0 0, rgba(0, 0, 0, 0.5) 1.1em -1.1em 0 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 1.5em 0 0 0,
+    rgba(0, 0, 0, 0.5) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) 0 1.5em 0 0,
+    rgba(0, 0, 0, 0.5) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0,
+    rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.5) 0 -1.5em 0 0,
+    rgba(0, 0, 0, 0.5) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.5) 1.5em 0 0 0, rgba(0, 0, 0, 0.5) 1.1em 1.1em 0 0,
+    rgba(0, 0, 0, 0.5) 0 1.5em 0 0, rgba(0, 0, 0, 0.5) -1.1em 1.1em 0 0,
+    rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0,
+    rgba(0, 0, 0, 0.5) 0 -1.5em 0 0, rgba(0, 0, 0, 0.5) 1.1em -1.1em 0 0;
 }
-
 </style>

@@ -19,19 +19,16 @@ export default {
 </script>
 
 <style scoped>
-.title
-{
+.title {
   margin-top: 15px;
   font-size: 5em;
 }
-.info
-{
+.info {
   font-weight: 300;
   color: #9aabb1;
   margin: 0;
 }
-.button
-{
+.button {
   margin-top: 50px;
 }
 </style>

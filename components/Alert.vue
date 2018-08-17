@@ -24,9 +24,7 @@ import { mapMutations } from 'vuex'
 
 export default {
   methods: {
-    ...mapMutations([
-      'setAlertCountDown'
-    ])
+    ...mapMutations(['setAlertCountDown'])
   }
 }
 </script>
@@ -34,6 +32,8 @@ export default {
 <style scoped>
 .my-alert {
   -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
   -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 </style>

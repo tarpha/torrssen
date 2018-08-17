@@ -32,22 +32,14 @@ import axios from '~/plugins/axios'
 
 export default {
   computed: {
-    ...mapState([
-      'modal'
-    ]),
-    ...mapGetters([
-      'getModalName',
-      'getModalPath'
-    ])
+    ...mapState(['modal']),
+    ...mapGetters(['getModalName', 'getModalPath'])
   },
   methods: {
-    ...mapMutations([
-      'setTorr',
-      'hideModal',
-      'setAlert'
-    ]),
+    ...mapMutations(['setTorr', 'hideModal', 'setAlert']),
     download: function () {
-      axios.post('/api/download', this.modal.data)
+      axios
+        .post('/api/download', this.modal.data)
         .then(res => {
           const ret = res.data.id !== undefined ? 'success' : 'failure'
 
@@ -55,21 +47,23 @@ export default {
 
           if (ret === 'success') {
             this.setTorr({
-              'tid': res.data.id,
-              'target': this.modal.data.target,
-              'index': this.modal.data.index
+              tid: res.data.id,
+              target: this.modal.data.target,
+              index: this.modal.data.index
             })
 
             this.modal.showBody = false
             this.modal.successMark = true
             this.modal.textVariant = 'success'
-            this.setAlert({ 'variant': 'success', 'title': 'Download complete' })
-            setTimeout(() => { this.hideModal() }, 2000)
+            this.setAlert({ variant: 'success', title: 'Download complete' })
+            setTimeout(() => {
+              this.hideModal()
+            }, 2000)
           } else {
             this.modal.textVariant = 'danger'
           }
         })
-        .catch((err) => {
+        .catch(err => {
           alert(err)
           this.modal.textVariant = 'danger'
           this.modal.data.title = 'Error'
@@ -88,8 +82,8 @@ export default {
   margin: 0 auto;
 }
 
-.hide{
-  display:none;
+.hide {
+  display: none;
 }
 
 .sa-icon {
@@ -106,10 +100,11 @@ export default {
 }
 
 .sa-icon.sa-success {
-  border-color: #4CAF50;
+  border-color: #4caf50;
 }
 
-.sa-icon.sa-success::before, .sa-icon.sa-success::after {
+.sa-icon.sa-success::before,
+.sa-icon.sa-success::after {
   content: '';
   -webkit-border-radius: 40px;
   border-radius: 40px;
@@ -147,7 +142,7 @@ export default {
 .sa-icon.sa-success .sa-placeholder {
   width: 80px;
   height: 80px;
-  border: 4px solid rgba(76, 175, 80, .5);
+  border: 4px solid rgba(76, 175, 80, 0.5);
   -webkit-border-radius: 40px;
   border-radius: 40px;
   border-radius: 50%;
@@ -297,7 +292,7 @@ export default {
 
 .sa-icon.sa-success .sa-line {
   height: 5px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   display: block;
   border-radius: 2px;
   position: absolute;

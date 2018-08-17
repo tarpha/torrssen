@@ -83,11 +83,10 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'showModal'
-    ]),
+    ...mapMutations(['showModal']),
     download: function () {
-      axios.post('/api/download', this.modal.dat)
+      axios
+        .post('/api/download', this.modal.dat)
         .then(res => {
           const ret = res.data.id !== undefined ? 'success' : 'failure'
 
@@ -107,12 +106,14 @@ export default {
             this.modal.bodyClass = 'hide'
             this.modal.successMark = true
             this.modal.textVariant = 'success'
-            setTimeout(() => { this.$refs.dnModalRef.hide() }, 2000)
+            setTimeout(() => {
+              this.$refs.dnModalRef.hide()
+            }, 2000)
           } else {
             this.modal.textVariant = 'danger'
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
           this.modal.textVariant = 'danger'
           this.modal.title = 'Error'
@@ -121,7 +122,8 @@ export default {
     },
     deleteDown: function (id) {
       console.log('delete')
-      axios.post('/api/delete', { 'id': id })
+      axios
+        .post('/api/delete', { id: id })
         .then(res => {
           for (var i = 0; i < this.data.length; i++) {
             if (this.data[i].tid === id) {
@@ -132,7 +134,7 @@ export default {
             }
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
         })
     }
@@ -142,14 +144,14 @@ export default {
 
 <style scoped>
 .card {
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 8px;
-    margin-top: 0.4em;
-    padding: 1rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 8px;
+  margin-top: 0.4em;
+  padding: 1rem;
 }
 
 .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 </style>

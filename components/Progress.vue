@@ -29,19 +29,19 @@ export default {
     }
   },
   beforeMount () {
-    socket.on('send-downloading-' + this.id, (node) => {
+    socket.on('send-downloading-' + this.id, node => {
       this.done = node.percentDone * 100
     })
-    socket.on('send-error-' + this.id, (err) => {
+    socket.on('send-error-' + this.id, err => {
       console.log(err)
     })
-    socket.on('send-done-' + this.id, (ret) => {
+    socket.on('send-done-' + this.id, ret => {
       if (this.intervalObj !== '') {
         clearInterval(this.intervalObj)
         this.setTorr({
-          'tid': 0,
-          'target': '',
-          'index': this.index
+          tid: 0,
+          target: '',
+          index: this.index
         })
         console.log('done', this.done)
         this.showAlert(this.name.trim())
@@ -56,10 +56,7 @@ export default {
     })
   },
   methods: {
-    ...mapMutations([
-      'showAlert',
-      'setTorr'
-    ])
+    ...mapMutations(['showAlert', 'setTorr'])
   }
 }
 </script>
