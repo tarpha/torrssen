@@ -31,9 +31,9 @@ export default {
 
 <style scoped>
 .my-alert {
-  -webkit-border-bottom-left-radius: 0;
   border-bottom-left-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
   border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
 }
 </style>
