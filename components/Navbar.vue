@@ -31,7 +31,7 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import NuxtAlert from '~/components/Alert.vue'
+import NuxtAlert from '~/components/Alert'
 
 export default {
   components: {
@@ -139,7 +139,9 @@ export default {
   align-items: flex-start;
   border-radius: 0;
   -webkit-border-top-right-radius: 8px;
+  border-top-right-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
+  border-bottom-right-radius: 8px;
   height: 40px;
   width: 40px;
   background-color: #3b78e7;
@@ -169,5 +171,6 @@ export default {
 
 .no-top-right-radius {
   -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
 }
 </style>

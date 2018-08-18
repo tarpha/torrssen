@@ -175,9 +175,11 @@ export default {
 }
 .sa-icon.sa-success .sa-line.sa-tip {
   -ms-transform: rotate(45deg) \9;
+  transform: rotate(45deg) \9;
 }
 .sa-icon.sa-success .sa-line.sa-long {
   -ms-transform: rotate(-45deg) \9;
+  transform: rotate(-45deg) \9;
 }
 
 .animateSuccessTip {

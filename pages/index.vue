@@ -31,9 +31,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import axios from '~/plugins/axios'
-import NuxtCard from '~/components/Card.vue'
-import NuxtModal from '~/components/Modal.vue'
-import NuxtNavbar from '~/components/Navbar.vue'
+import NuxtCard from '~/components/Card'
+import NuxtModal from '~/components/Modal'
+import NuxtNavbar from '~/components/Navbar'
 
 const rssApiUrl = '/api/rss' + (process.env.READER === 'RSS' ? '/php' : '')
 

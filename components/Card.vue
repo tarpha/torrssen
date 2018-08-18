@@ -48,8 +48,8 @@
 <script>
 import { mapMutations } from 'vuex'
 import axios from '~/plugins/axios'
-import NuxtProgress from '~/components/Progress.vue'
-import NuxtDeleteButton from '~/components/DeleteButton.vue'
+import NuxtProgress from '~/components/Progress'
+import NuxtDeleteButton from '~/components/DeleteButton'
 
 export default {
   components: {
