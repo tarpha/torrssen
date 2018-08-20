@@ -14,13 +14,19 @@
           :key="dat.no">
         </nuxt-card>
         <!-- Paging Component -->
-        <b-button
-          block variant="link sm"
-          @click="next" v-if="showPaging" style="margin-top: 0.4em;">
-          결과 더 보기
-        </b-button>
-        <p class="last text-success" v-if="lastPage">마지막 페이지 입니다</p>
-        <div class="loader" v-if="showLoader"></div>
+        <div style="height: 3em; margin-top: 0.4em;">
+          <b-button
+            block variant="link sm"
+            @click="next" v-if="showPaging">
+            결과 더 보기
+          </b-button>
+          <div style="padding-top: 0.5em">
+            <p class="last text-success" v-if="lastPage">마지막 페이지 입니다</p>
+          </div>
+          <div style="line-height: 3em;">
+            <div class="loader" v-if="showLoader"></div>
+          </div>
+        </div>
         <a href="https://github.com/tarpha/torrssen" target="_blank">
           <img class="bottom-img" :src="require('~/assets/img/GitHub-Mark-32px.png')" />
         </a>
@@ -150,13 +156,13 @@ export default {
 <style scoped>
 .bottom-img {
   display: block;
+  width: 20px;
+  opacity: 0.5;
   margin-left: auto;
   margin-right: auto;
-  opacity: 0.5;
 }
 
 .last {
-  margin-top: 1em;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -170,8 +176,6 @@ export default {
   width: 1.5em;
   height: 1.5em;
   animation: spin 1s linear infinite;
-  margin-top: 0.9rem;
-  margin-bottom: 0.5rem;
   margin-left: auto;
   margin-right: auto;
 }
