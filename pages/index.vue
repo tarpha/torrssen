@@ -21,6 +21,9 @@
         </b-button>
         <p class="last text-success" v-if="lastPage">마지막 페이지 입니다</p>
         <div class="loader" v-if="showLoader"></div>
+        <a href="https://github.com/tarpha/torrssen" target="_blank">
+          <img class="bottom-img" :src="require('~/assets/img/GitHub-Mark-32px.png')" />
+        </a>
         <!-- Modal Component -->
         <nuxt-modal></nuxt-modal>
       </div>
@@ -145,6 +148,13 @@ export default {
 </script>
 
 <style scoped>
+.bottom-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.5;
+}
+
 .last {
   margin-top: 1em;
   margin-left: auto;
