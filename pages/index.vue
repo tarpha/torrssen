@@ -162,7 +162,7 @@ export default {
 }
 
 .footer {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
   height: 4em;
   padding-top: 1em;
 }
