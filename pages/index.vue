@@ -14,7 +14,7 @@
           :key="dat.no">
         </nuxt-card>
         <!-- Paging Component -->
-        <div style="height: 3em; margin-top: 0.4em;">
+        <div class="paging">
           <b-button
             block variant="link sm"
             @click="next" v-if="showPaging">
@@ -26,13 +26,15 @@
           <div style="line-height: 3em;">
             <div class="loader" v-if="showLoader"></div>
           </div>
-        </div>
-        <a href="https://github.com/tarpha/torrssen" target="_blank">
-          <img class="bottom-img" :src="require('~/assets/img/GitHub-Mark-32px.png')" />
-        </a>
-        <!-- Modal Component -->
-        <nuxt-modal></nuxt-modal>
+        </div>   
       </div>
+    </div>
+    <!-- Modal Component -->
+    <nuxt-modal></nuxt-modal>
+    <div class="footer">
+      <a href="https://github.com/tarpha/torrssen" target="_blank">
+        <img class="bottom-img" :src="require('~/assets/img/GitHub-Mark-32px.png')" />
+      </a>
     </div>
   </div>
 </template>
@@ -154,9 +156,19 @@ export default {
 </script>
 
 <style scoped>
+.paging {
+  height: 1.5em;
+  margin-top: 0.4em;
+}
+
+.footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 4em;
+  padding-top: 1em;
+}
+
 .bottom-img {
   display: block;
-  width: 20px;
   opacity: 0.5;
   margin-left: auto;
   margin-right: auto;

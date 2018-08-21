@@ -85,7 +85,7 @@ export default {
 /* google */
 .zGVn2e {
   display: flex;
-  height: 39px;
+  height: 40px;
   z-index: 3;
 }
 
