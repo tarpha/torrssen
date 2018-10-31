@@ -1,6 +1,9 @@
 require('dotenv').config()
 
 module.exports = {
+  server: {
+    port: process.env.PORT || 3000
+  },
   env: {
     DOWNLOAD: process.env.DOWNLOAD || '/download',
     ASTITLE: process.env.ASTITLE || '/video/TV/',
