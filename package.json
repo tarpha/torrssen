@@ -5,9 +5,9 @@
   "author": "LJW <tarpha@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "nodemon -w server -w plugins -w nuxt.config.js ./server/server.js",
+    "dev": "nodemon -w server -w plugins -w nuxt.config.js -r dotenv/config ./server/server.js",
     "build": "nuxt build",
-    "start": "NODE_ENV=production node ./server/server.js",
+    "start": "NODE_ENV=production node -r dotenv/config ./server/server.js",
     "precommit": "npm run lint",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
