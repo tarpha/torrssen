@@ -2,6 +2,7 @@ require('dotenv').config()
 
 module.exports = {
   env: {
+    baseUrl: 'http://localhost:' + (process.env.PORT || 3000),
     DOWNLOAD: process.env.DOWNLOAD || '/download',
     ASTITLE: process.env.ASTITLE || '/video/TV/',
     READER: process.env.READER || 'DB'

@@ -7,7 +7,8 @@ const transmission = (process.env.TMUSER)
     'host': process.env.TMHOST,
     'port': process.env.TMPORT,
     'username': process.env.TMUSER,
-    'password': process.env.TMPASSWORD
+    'password': process.env.TMPASSWORD,
+    'ssl': process.env.SSL || false
   })
   : new Transmission({
     'host': process.env.TMHOST,
