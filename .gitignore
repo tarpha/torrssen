@@ -21,3 +21,4 @@ build
 
 # Mac temp files
 .DS_Store
+.icloud
