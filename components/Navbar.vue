@@ -1,5 +1,5 @@
 <template>
-  <b-navbar variant="faded" type="light" class="navi" style="padding: 0.5rem 0 0 0;" sticky fixed>
+  <b-navbar variant="faded" type="light" class="navi" style="padding: 0.5rem 15px 0 15px;" sticky fixed>
     <div class="container">
       <div class="box">
         <nuxt-alert></nuxt-alert>
