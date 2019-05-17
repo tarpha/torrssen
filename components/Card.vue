@@ -4,23 +4,7 @@
     <small class="text-success">E{{dat.rss_episode}} {{dat.rss_quality}} {{dat.rss_release_group}}</small>
     <hr/>
     <small class="d-inline-block text-truncate">{{ dat.title !== undefined ? dat.title.trim() : 'error' }}</small>
-    <div v-if="jt === 'true'"
-      class="d-flex justify-content-between align-items-center">
-      <b-link
-        :disabled="dat.tid !== 0"
-        @click="showModal({
-          'no': dat.no,
-          'name': dat.title,
-          'link': dat.link,
-          'path': onlyJtPath,
-          'index': index,
-          'target': 'download',
-          'title': 'Transmission'})">
-        <small>{{ onlyJtPath }}</small>
-      </b-link>
-      <nuxt-delete-button v-if="dat.tid !== 0" :tid="dat.tid" :index="this.index"></nuxt-delete-button>
-    </div>
-    <div v-if="jt !== 'true' && (dat.tid === 0 || dat.target === 'download')"
+    <div v-if="dat.tid === 0 || dat.target === 'download'"
       class="d-flex justify-content-between align-items-center">
       <b-link
         :disabled="dat.tid !== 0"
@@ -35,7 +19,7 @@
       </b-link>
       <nuxt-delete-button v-if="dat.tid !== 0" :tid="dat.tid" :index="this.index"></nuxt-delete-button>
     </div>
-    <div v-if="jt !== 'true' && (dat.tid === 0 || dat.target === 'video')"
+    <div v-if="dat.tid === 0 || dat.target === 'video'"
       class="d-flex justify-content-between align-items-center">
       <b-link
         :disabled="dat.tid !== 0"
@@ -95,9 +79,7 @@ export default {
         dat: {}
       },
       downloadPath: process.env.DOWNLOAD,
-      asTitlePath: process.env.ASTITLE,
-      onlyJtPath: process.env.ONLYJT,
-      jt: this.$route.query.jt
+      asTitlePath: process.env.ASTITLE
     }
   },
   methods: {

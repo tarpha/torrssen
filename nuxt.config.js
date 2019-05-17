@@ -5,7 +5,6 @@ module.exports = {
     baseUrl: 'http://localhost:' + (process.env.PORT || 3000),
     DOWNLOAD: process.env.DOWNLOAD || '/download',
     ASTITLE: process.env.ASTITLE || '/video/TV/',
-    ONLYJT: process.env.JT || '/jt',
     READER: process.env.READER || 'DB'
   },
   /*
