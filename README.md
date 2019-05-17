@@ -42,4 +42,8 @@ option 2. Url
     # launch server (after build)
     $ npm start # Or yarn start
 
+## Setting Page
+
+    # {IP}:{PORT}/setting
+
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
