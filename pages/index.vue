@@ -4,6 +4,18 @@
     <div v-if="PageLoadingShow" class="loading">Loading&#8230;</div>
     <!-- Navbar Component -->
     <nuxt-navbar></nuxt-navbar>
+    
+     <div class="container">
+    <b-button-group>
+      <b-button variant="link" 
+        v-if="this.showDBBtn" 
+        @click="showDB">DB</b-button>
+      <b-button variant="link" 
+        v-for="(rss, index) in this.rssList" 
+        :key="`dyn-tab-${index}`"
+        @click="showRSS(rss)">{{rss.name}}</b-button>
+    </b-button-group>
+    </div>
     <div :class="PageLoadingClass">
       <div class="container">
         <!-- Card Component -->
@@ -61,7 +73,8 @@ import NuxtCard from '~/components/Card'
 import NuxtModal from '~/components/Modal'
 import NuxtNavbar from '~/components/Navbar'
 
-const rssApiUrl = '/api/rss' + (process.env.READER === 'RSS' ? '/php' : '')
+// const rssApiUrl = '/api/rss' + (process.env.READER === 'RSS' ? '/php' : '')
+let rssApiUrl = '/api/rss'
 
 export default {
   components: {
@@ -96,7 +109,8 @@ export default {
             params: {
               offset: 0,
               limit: this.paging.items,
-              title: this.getSearchInput
+              title: this.getSearchInput,
+              rss: this.curRss
             }
           })
           .then(res => {
@@ -121,17 +135,27 @@ export default {
       showPaging: true,
       lastPage: false,
       PageLoadingClass: '',
-      PageLoadingShow: false
+      PageLoadingShow: false,
+      showDBBtn: process.env.READER === 'DB'
     }
   },
   async asyncData ({ app }) {
+    const resRss = await axios.get('/api/setting/rss', {})
+    if( process.env.READER !== 'DB' && resRss.data) {
+      rssApiUrl = '/api/rss/url'
+    }
     const res = await axios.get(rssApiUrl, {
       params: {
         offset: 0,
-        limit: 25
+        limit: 25,
+        rss: resRss.data[0]
       }
     })
-    return { data: res.data }
+    return { 
+      data: res.data,
+      rssList: resRss.data,
+      curRss: resRss.data[0]
+    }
   },
   methods: {
     next: function () {
@@ -144,7 +168,8 @@ export default {
           params: {
             offset: this.paging.offset,
             limit: this.paging.items,
-            title: this.getSearchInput
+            title: this.getSearchInput,
+            rss: this.curRss
           }
         })
         .then(res => {
@@ -161,6 +186,68 @@ export default {
               this.showLoader = false
             }, 1000)
           }
+        })
+        .catch(error => {
+          alert(error)
+        })
+    },
+    showDB: function () {
+      rssApiUrl = '/api/rss'
+      this.showPaging = true
+      this.lastPage = false
+      this.showLoader = false
+
+      this.PageLoadingShow = true
+
+      this.PageLoadingClass = 'blur-filter'
+      this.PageLoadingShow = true
+
+      axios
+        .get(rssApiUrl, {
+          params: {
+            offset: 0,
+            limit: this.paging.items,
+            title: this.getSearchInput,
+            rss: this.curRss
+          }
+        })
+        .then(res => {
+          this.data = res.data
+          this.PageLoadingClass = ''
+          this.PageLoadingShow = false
+          window.scroll({ top: 0, left: 0, behavior: 'auto' })
+        })
+        .catch(error => {
+          alert(error)
+        })
+    },
+    showRSS: function (rss) {
+      rssApiUrl = '/api/rss/url'
+      this.curRss = rss
+
+      this.showPaging = true
+      this.lastPage = false
+      this.showLoader = false
+
+      this.PageLoadingShow = true
+
+      this.PageLoadingClass = 'blur-filter'
+      this.PageLoadingShow = true
+
+      axios
+        .get(rssApiUrl, {
+          params: {
+            offset: 0,
+            limit: this.paging.items,
+            title: this.getSearchInput,
+            rss: encodeURI(JSON.stringify(this.curRss))
+          }
+        })
+        .then(res => {
+          this.data = res.data
+          this.PageLoadingClass = ''
+          this.PageLoadingShow = false
+          window.scroll({ top: 0, left: 0, behavior: 'auto' })
         })
         .catch(error => {
           alert(error)

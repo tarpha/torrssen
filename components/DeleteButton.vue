@@ -1,5 +1,5 @@
 <template>
-  <button class="delete_button text-danger" type="button" @click="deleteDown">
+  <button class="delete_button text-danger" type="button" @click="deleteDown" >
     <span aria-label="다운로드 삭제">×</span>
   </button>
 </template>
